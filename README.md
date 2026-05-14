@@ -34,9 +34,7 @@ import re_aiogram
 from re_aiogram import Bot, Message
 from re_aiogram.filters import Command
 
-API_TOKEN = "YOUR_API_TOKEN"
-
-bot = Bot(token=API_TOKEN)
+bot = Bot(token=YOUR_API_TOKEN)
 
 
 @bot.message(Command("start"))
@@ -60,7 +58,7 @@ from re_aiogram import Bot, Message
 from re_aiogram.filters import F
 from re_aiogram.types import MediaGroup
 
-bot = Bot(token="TOKEN")
+bot = Bot(token="YOUR_API_TOKEN")
 
 
 @bot.message(F.media_group_id)
@@ -84,13 +82,12 @@ async def handle_album(message: Message, media_group: MediaGroup):
 | `media_group.audio`     | Returns a list of `Message` objects that contain audio files.                                                                          |
 | `media_group.is_mixed`  | Returns `True` if the album contains different media types (e.g., photos and videos together).                                         |
 
----
 
 # Routers
 
 Router connection is simplified with `bot.load()`
 
-## Project structure
+### Project structure
 
 ```text
 project/
@@ -105,9 +102,7 @@ project/
 ```python
 from re_aiogram import Bot
 
-API_TOKEN = "YOUR_API_TOKEN"
-
-bot = Bot(token=API_TOKEN)
+bot = Bot(token="YOUR_API_TOKEN")
 
 bot.load("handlers.start")
 
@@ -132,7 +127,7 @@ async def start(message: Message):
 
 These features are planned for upcoming versions and are not yet part of the core API.
 
-## Flow System (FSM alternative)
+##### Flow System (FSM alternative)
 
 A lightweight state/flow system replacing traditional FSM:
 
@@ -163,9 +158,3 @@ re_aiogram tries to make Telegram bot development:
 * more beginner-friendly
 
 while still preserving compatibility with the `aiogram` ecosystem.
-
----
-
-# License
-
-`MIT License`
