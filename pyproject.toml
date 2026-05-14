@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "re-aiogram"
+version = "0.1.0"
+description = "Lightweight wrapper over aiogram 3.x"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+
+authors = [
+    { name = "carrotgoodbye" }
+]
+
+dependencies = [
+    "aiogram>=3.0.0, <4.0.0"
+]
+
+keywords = [
+    "telegram",
+    "aiogram",
+    "bot",
+    "telebot",
+    "api",
+    "framework",
+    "wrapper",
+    "asyncio",]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
