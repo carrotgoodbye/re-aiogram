@@ -4,14 +4,25 @@ import logging
 import signal
 import sys
 import importlib
+import os
+from dotenv import load_dotenv
 
 
-class Bot:
-    def __init__(self, token: str = None):
-        if not token:
+class Bot(_Bot):
+    """
+    Bot class.
+    """
+    def __init__(self, token: str = None, env_token: str | None = None):
+        # token
+        if token:
+            self._token = token
+        elif env_token:
+            load_dotenv()
+            self._token = os.getenv(env_token)
+        else:
             raise ValueError("Token is required")
 
-        self._bot = _Bot(token=token)
+        self._bot = _Bot(token=self._token)
         self._dp = _Dispatcher()
 
         # middlewares
@@ -54,8 +65,8 @@ class Bot:
 
         try:
             asyncio.run(self._start())
-        except KeyboardInterrupt:
-            logging.info("Bot stopped by user")
+        except (KeyboardInterrupt, SystemExit):
+            logging.info("Bot stopped.")
         except Exception as e:
             logging.error("Polling error: %s", e)
             sys.exit(1)
@@ -69,22 +80,21 @@ class Bot:
             try:
                 loop.add_signal_handler(sig, self._request_shutdown)
             except (NotImplementedError, ValueError):
-                # Windows doesn't support add_signal_handler for all signals
                 break
 
         try:
             await self._dp.start_polling(self._bot)
         finally:
-            await self._shutdown()
+            await self._shutdown() # sixsevenn
 
     def _request_shutdown(self):
         """Signal handler: initiate graceful stop."""
-        logging.info("Shutdown signal received, stopping polling...")
+        logging.debug("Shutdown signal received, stopping polling...")
         asyncio.create_task(self._dp.stop_polling())
 
     async def _shutdown(self):
         """Close sessions and clean up resources."""
-        logging.info("Closing bot session...")
+        logging.debug("Closing bot session...")
         await self._bot.session.close()
 
         loop = asyncio.get_running_loop()
@@ -93,5 +103,3 @@ class Bot:
                 loop.remove_signal_handler(sig)
             except (NotImplementedError, ValueError):
                 pass
-
-        logging.info("Shutdown complete")

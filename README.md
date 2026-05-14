@@ -34,7 +34,7 @@ import re_aiogram
 from re_aiogram import Bot, Message
 from re_aiogram.filters import Command
 
-bot = Bot(token=YOUR_API_TOKEN)
+bot = Bot(token="YOUR_API_TOKEN")
 
 
 @bot.message(Command("start"))
@@ -45,6 +45,12 @@ async def cmd_start(message: Message):
 
 
 bot.run(logging_enabled=True)
+```
+
+You can specify a token from the virtual environment:
+
+```python
+bot = Bot(env_token="API_TOKEN")
 ```
 
 ---
